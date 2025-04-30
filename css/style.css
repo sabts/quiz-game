@@ -21,4 +21,9 @@ nav ul{
 body{
     margin: 0;
     font-family: sans-serif;
+    padding: 3rem;
+}
+.range, .radios,.themes, .start-game, .quiz-game{
+    display: flex;
+    flex-direction: column;
 }
