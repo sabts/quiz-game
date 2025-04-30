@@ -7,14 +7,17 @@
     <title>Document</title>
   </head>
   <body>
+    <header>
+      <h1>Quiz Game</h1>
+    </header>
     <main>
       <form class="form" id="form">
         <div class="range">
           <span>¿Cuántas preguntas quieres?</span>
           <div>
             <label class="text-range" 
-            value="5" 
-            id="range-value">5</label>
+            value="17" 
+            id="range-value">17</label>
             <input type="range" min="5" max="30"  step="1" id="range-question">
           </div>
         </div>
@@ -22,46 +25,70 @@
           <span>¿Cuánto tiempo quieres por pregunta?</span>
           <div>
             <input type="radio" id="radio10s" name="radio-time" value="10s">
-            <label for="radio10s">10 seconds</label>
+            <label for="radio10s">10 segundos</label>
         </div>
         <div>
             <input type="radio" id="radio20s" name="radio-time" value="20s">
-            <label for="radio20s">20 seconds</label>
+            <label for="radio20s">20 segundos</label>
         </div>
         <div>
             <input type="radio" id="radio30s" name="radio-time" value="30s">
-            <label for="radio30s">30 seconds</label>
+            <label for="radio30s">30 segundos</label>
         </div>
         <div>
             <input type="radio" id="radio60s" name="radio-time" value="60s">
-            <label for="radio60s">60 seconds</label>
+            <label for="radio60s">60 segundos</label>
         </div>
         </div>
         <div class="themes" id="themes">
-          <input type="checkbox" id="ciencia">
-          <label for="ciencia">ciencia</label>
-          <input type="checkbox" id="geografia">
-          <label for="geografia">Geografía</label>
-          <input type="checkbox" id="arte">
-          <label for="arte">Arte</label>
-          <input type="checkbox" id="historia">
-          <label for="historia">Historia</label>
-          <input type="checkbox" id="mitologia">
-          <label for="mitologia">Mitología</label>
-          <input type="checkbox" id="Cultura>
-          <label for="Cultura">Cultura General</label>
+          <span>¿Sobre qué tema?</span>
+          <div class="checkbox-box">
+            <input type="checkbox" value="science" class="input-checkbox">
+            <label for="ciencia" class="label">Ciencia</label>
+          </div>
+          <div>
+            <input type="checkbox" value="geography" class="input-checkbox">
+            <label for="geografia" class="label" >Geografía</label>
+          </div>
+          <div>
+            <input type="checkbox" value="art" class="input-checkbox">
+            <label for="arte" class="label">Arte</label>
+          </div>
+          <div>
+            <input type="checkbox" value="history" class="input-checkbox">
+            <label for="historia" class="label">Historia</label>
+          </div>
+          <div>
+            <input type="checkbox" value="mythology" class="input-checkbox">
+            <label for="mitologia" class="label">Mitología</label>
+          </div>
+          <div>
+            <input type="checkbox" value="general" class="input-checkbox">
+            <label for="general" class="label">Cultura General</label>
+          </div>
         </div>
         <div class="start-game">
           <input type="submit" value="Jugar" id="startGameButton">
           <span>Selecciona al menos un tema</span>
         </div>
       </form>
-      <section class="quiz-game">
-        <span class="question-title">Pregunta</span>
-        <span>Respuesta 1</span>
-        <span>Respuesta 2</span>
-        <span>Respuesta 3</span>
-        <span>Respuesta 4</span>
+      <section class="quiz-game" id="quiz">
+        <div class="quiz header">
+          <span data-quiz="back"><< Back</span>
+          <span class="quiz-time" data-quiz="timer">00:29</span>
+        </div>
+        <span class="question-title" data-quiz="question">Pregunta</span>
+        <span data-quiz="option1">Respuesta 1</span>
+        <span data-quiz="option2">Respuesta 2</span>
+        <span data-quiz="option3">Respuesta 3</span>
+        <span data-quiz="option4">Respuesta 4</span>
+      </section>
+      <section class="game-result">
+        <h2>Resultado final</h2>
+        <span>Acertaste X </span>
+        <span>Fallaste X</span>
+        <span>No contestaste a tiempo X</span>
+        <button>Reiniciar juego</button>
       </section>
     </main>
     <script src="./js/scripts.js"></script>

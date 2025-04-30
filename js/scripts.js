@@ -1,9 +1,10 @@
 const formElement = document.getElementById("form");
 const rangeValueInfoElement = document.getElementById("range-value");
 const rangeElement = document.getElementById("range-question");
-const radiosElement = document.getElementById("range-question");
+const radiosElement = document.getElementById("radios");
 const checkThemesElement = document.getElementById("themes");
 const submitButtonElement = document.getElementById("startGameButton");
+const quizElement = document.getElementById("quiz")
 
 const QUESTIONS = {
   history: [
@@ -1264,13 +1265,79 @@ const QUESTIONS = {
   ],
 };
 
+//Primero, se especifica el numero de preguntas
+let quizLength = rangeElement.value;
+
+//el valor del timer
+let timer = 10;
+
+let selectedThemeQuestions = [];
+
+let allThemeOptions = document.querySelectorAll(".input-checkbox");
+console.log(allThemeOptions)
+
 const detectQuizLength = () => {
+  quizLength = event.target.value;
   rangeValueInfoElement.textContent = rangeElement.value;
 };
 
-const setTimeforTheQuiz = () => {};
+const aleatoryQuestions = max => {
+  return Math.floor(Math.random() * max);
+};
+
+const setTimeforTheQuiz = () => {
+  
+  if (event.target.value === null) return;
+
+  if(event.target.value === '10s'){
+    setInterval(() => { quizElement.querySelector('[data-quiz="timer"]').textContent = `00:${timer}`;
+    timer--})
+  } else if(event.target.value === '20s'){
+    timer=20;
+    setInterval(() => {quizElement.querySelector('[data-quiz="timer"]').textContent = `00:${timer}`;
+    timer--})
+  } else if (event.target.value === '30s'){
+    timer=30;
+    setInterval(() => {quizElement.querySelector('[data-quiz="timer"]').textContent = `00:${timer}`;
+    timer--})
+  } else if (event.target.value === '60s'){
+  timer=60;
+  setInterval(() => {quizElement.querySelector('[data-quiz="timer"]').textContent = `00:${timer}`;
+  timer--})
+}
+};
+
+const chooseQuestionTheme = () => {
+  const checkbox = event.target;
+  const category = checkbox.value;
+
+  if (!checkbox || checkbox.type !== "checkbox") return;
+
+  if (checkbox.checked) {
+    if (QUESTIONS[category]) {
+      selectedQuestions.push(...QUESTIONS[category]);
+    }
+  } else {
+    selectedQuestions = selectedQuestions.filter(
+      (question) => question.category !== category
+    );
+  }
+  selectedQuestions.length = rangeElement.value;
+  console.log(selectedQuestions)
+}
+
+//const submitGamePreferences = () => {}
+
+const renderQuiz = (questions) => {
+  quizElement.textContent=""
+  const fragment = document.createElement('fragment')
+
+  array.forEach(element => {
+    
+  });
+}
 
 rangeElement.addEventListener("input", detectQuizLength);
-radiosElement.addEventListener("change", event => {
-  console.log(event.target.value);
-});
+radiosElement.addEventListener("change", event =>  setTimeforTheQuiz //console.log(event.target.value);
+);
+checkThemesElement.addEventListener('change', chooseQuestionTheme);

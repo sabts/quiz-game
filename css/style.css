@@ -21,9 +21,27 @@ nav ul{
 body{
     margin: 0;
     font-family: sans-serif;
-    padding: 3rem;
+    padding-inline: 3rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
-.range, .radios,.themes, .start-game, .quiz-game{
+h1{
+    text-align: center;
+}
+.form{
     display: flex;
     flex-direction: column;
+    gap: 2rem;
+}
+.range, .radios,.themes, .start-game, .quiz-game, .game-result{
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+.hide{
+    display: none;
+    pointer-events: none;
+}
+.checkbox-box{
+    display: flex;
 }
