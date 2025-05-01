@@ -1285,10 +1285,6 @@ const detectQuizLength = (event) => {
   rangeValueInfoElement.textContent = rangeElement.value;
 };
 
-const aleatoryQuestions = max => {
-  return Math.floor(Math.random() * max);
-};
-
 const setTimeforTheQuiz = (event) => {
   const value = event.target.value;
   console.log(value)
@@ -1333,25 +1329,46 @@ const chooseQuestionTheme = (event) => {
     selectedThemeQuestions = selectedThemeQuestions.filter(
       theme => !questionsToRemove.includes(theme)
     );
-      console.log(selectedThemeQuestions)
-}
+     // console.log(selectedThemeQuestions)
 }
 
-//const quizgenerator = () =>{
-//  const category = chooseQuestionTheme();
-//}
+}
+const quizgenerator = () =>{
+  let quizQuestions = [];
+
+  if (selectedThemeQuestions.length === 0) {
+    console.log("No hay preguntas seleccionadas");
+    return []
+  }
+
+  while (quizQuestions.length < rangeElement.value) {
+    const randomIndex = Math.floor(Math.random() * selectedThemeQuestions.length);
+    const randomQuestion = selectedThemeQuestions[randomIndex];
+    if (!quizQuestions.includes(randomQuestion)) {
+      quizQuestions.push(randomQuestion);
+    }
+  }
+  console.log("Número de preguntas generadas:", quizQuestions.length);
+  console.log("Preguntas generadas:", quizQuestions);
+  return quizQuestions;
+}
+quizgenerator()
 
 //const submitGamePreferences = () => {}
 
 const renderQuiz = (questions) => {
-  quizElement.textContent=""
-  const fragment = document.createElement('fragment')
+  quizElement.textContent = ""; 
+  const fragment = document.createDocumentFragment();
 
-  array.forEach(element => {
-    
-  });
+  questions.forEach(question => {})
+
+
+  quizElement.appendChild(fragment);
 }
 
 rangeElement.addEventListener("input", detectQuizLength);
 radiosElement.addEventListener("change", setTimeforTheQuiz);
-checkThemesElement.addEventListener('change', chooseQuestionTheme);
+checkThemesElement.addEventListener('change', (event) => {
+  chooseQuestionTheme(event);
+  quizgenerator();
+});
