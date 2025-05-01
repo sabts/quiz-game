@@ -1265,6 +1265,8 @@ const QUESTIONS = {
   ],
 };
 
+let selectedThemeQuestions = [];
+
 //Primero, se especifica el numero de preguntas
 //let quizLength = rangeElement.value;
 
@@ -1297,42 +1299,48 @@ const setTimeforTheQuiz = (event) => {
   else if (value === '30s') timer = 30;
   else if (value === '60s') timer = 60;
   else return;
-  console.log(`Temporizador: ${timer} s.`);
+  console.log(`Temporizador: ${timer}s.`);
 
-  if (intervalId) clearInterval(intervalId);
+  //if (intervalId) clearInterval(intervalId);
 
-  intervalId = setInterval(() => {
-    const timerElement = quizElement.querySelector('[data-quiz="timer"]');
-    if (timerElement) {
-      timerElement.textContent = `00:${String(timer).padStart(2, '0')}`;
-    }
-    console.log(`Segundos restantes: ${timer}`);
-    timer--;
+  //intervalId = setInterval(() => {
+   // const timerElement = quizElement.querySelector('[data-quiz="timer"]');
+    //if (timerElement) {
+    //  timerElement.textContent = `00:${String(timer).padStart(2, '0')}`;
+   // }
+   // console.log(`Segundos restantes: ${timer}`);
+   // timer--;
 
-    if (timer < 0) {
-      console.log("Se acabó el tiempo💀");
-      clearInterval(intervalId); 
-    }
-  }, 1000); 
+   // if (timer < 0) {
+    //  console.log("Se acabó el tiempo💀");
+     // clearInterval(intervalId); 
+   // }
+ // }, 1000); 
 };
 
-const chooseQuestionTheme = (event) => {
-  let selectedThemeQuestions = [];
-  
-  const checkbox = event.target;
-  const category = checkbox.id;
-  if (!checkbox || checkbox.type !== "checkbox") return;
 
-  if (checkbox.checked) {
-      selectedThemeQuestions.push(...QUESTIONS[category]);
-    }
-   else {
-    selectedThemeQuestions = selectedThemeQuestions.filter(theme => theme !== category);
-  }
-  selectedThemeQuestions.length = rangeElement.value;
+const chooseQuestionTheme = (event) => {  
+  const checkboxSelected = event.target
 
-  console.log("Selected themes:", Array.from(selectedThemeQuestions));
+  if(checkboxSelected.checked) {
+    console.log('seleccionaste ' + checkboxSelected.id)
+    if (QUESTIONS[checkboxSelected.id]) 
+      selectedThemeQuestions.push(...QUESTIONS[checkboxSelected.id]);
+    console.log(selectedThemeQuestions)
+  } else{
+    console.log('borraste ' + checkboxSelected.id)
+    const questionsToRemove = QUESTIONS[checkboxSelected.id] || [];
+    selectedThemeQuestions = selectedThemeQuestions.filter(
+      theme => !questionsToRemove.includes(theme)
+    );
+      console.log(selectedThemeQuestions)
 }
+}
+
+//const quizgenerator = () =>{
+//  const category = chooseQuestionTheme();
+//}
+
 //const submitGamePreferences = () => {}
 
 const renderQuiz = (questions) => {
