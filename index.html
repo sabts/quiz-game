@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/style.css" />
-    <title>Document</title>
+    <title>quizgame</title>
   </head>
   <body>
     <header>
@@ -43,33 +43,33 @@
         <div class="themes" id="themes">
           <span>¿Sobre qué tema?</span>
           <div class="checkbox-box">
-            <input type="checkbox" value="science" class="input-checkbox">
-            <label for="ciencia" class="label">Ciencia</label>
+            <input type="checkbox" id="science"class="input-checkbox">
+            <label for="science" class="label">Ciencia</label>
           </div>
           <div>
-            <input type="checkbox" value="geography" class="input-checkbox">
-            <label for="geografia" class="label" >Geografía</label>
+            <input type="checkbox" id="geography" class="input-checkbox">
+            <label for="geography" class="label" >Geografía</label>
           </div>
           <div>
-            <input type="checkbox" value="art" class="input-checkbox">
-            <label for="arte" class="label">Arte</label>
+            <input type="checkbox" id="art" class="input-checkbox">
+            <label for="art" class="label">Arte</label>
           </div>
           <div>
-            <input type="checkbox" value="history" class="input-checkbox">
-            <label for="historia" class="label">Historia</label>
+            <input type="checkbox" id="history" class="input-checkbox">
+            <label for="history" class="label">Historia</label>
           </div>
           <div>
-            <input type="checkbox" value="mythology" class="input-checkbox">
-            <label for="mitologia" class="label">Mitología</label>
+            <input type="checkbox" id="mythology" class="input-checkbox">
+            <label for="mythology" class="label">Mitología</label>
           </div>
           <div>
-            <input type="checkbox" value="general" class="input-checkbox">
+            <input type="checkbox" id="general" class="input-checkbox">
             <label for="general" class="label">Cultura General</label>
           </div>
         </div>
         <div class="start-game">
           <input type="submit" value="Jugar" id="startGameButton">
-          <span>Selecciona al menos un tema</span>
+          <span class="warning">Selecciona al menos un tema</span>
         </div>
       </form>
       <section class="quiz-game" id="quiz">
@@ -78,7 +78,7 @@
           <span class="quiz-time" data-quiz="timer">00:29</span>
         </div>
         <span class="question-title" data-quiz="question">Pregunta</span>
-        <span data-quiz="option1">Respuesta 1</span>
+        <button data-quiz="option1">Respuesta 1</button>
         <span data-quiz="option2">Respuesta 2</span>
         <span data-quiz="option3">Respuesta 3</span>
         <span data-quiz="option4">Respuesta 4</span>
