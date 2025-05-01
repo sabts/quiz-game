@@ -1274,8 +1274,9 @@ const detectQuizLength = (event) => {
   rangeValueInfoElement.textContent = rangeElement.value;
 };
 //Funciones para el tiempo
-const setTimeforTheQuiz = (event) => {
-  const value = event.target.value;
+const setTimeforTheQuiz = () => {
+  const selectedtime = radiosElement.querySelector('input[type="radio"]:checked');
+ const value = selectedtime.value 
   console.log(value)
   if (!value) return;
 
@@ -1284,11 +1285,13 @@ const setTimeforTheQuiz = (event) => {
   else if (value === '30s') timer = 30;
   else if (value === '60s') timer = 60;
   else return;
+
   console.log(`Temporizador: ${timer}s.`);
+  return timer;
 };
 
 const quizTimeRunning = (event) => {
-  const timerValue = getTimerValue(event);
+  const timerValue = setTimeforTheQuiz(event);
   if (!timerValue) return;
 
   timer = timerValue;
@@ -1304,7 +1307,8 @@ const quizTimeRunning = (event) => {
    if (timer < 0) 
     //  console.log("Se acabó el tiempo💀");
   clearInterval(intervalId);
-}, 1000); }
+}, 1000); 
+}
 
 
 //Funciones para el quiz
@@ -1312,12 +1316,12 @@ const chooseQuestionTheme = (event) => {
   const checkboxSelected = event.target
 
   if(checkboxSelected.checked) {
-    console.log('seleccionaste ' + checkboxSelected.id)
+   // console.log('seleccionaste ' + checkboxSelected.id)
     if (QUESTIONS[checkboxSelected.id]) 
       selectedThemeQuestions.push(...QUESTIONS[checkboxSelected.id]);
-    console.log(selectedThemeQuestions)
+    //console.log(selectedThemeQuestions)
   } else{
-    console.log('borraste ' + checkboxSelected.id)
+    //console.log('borraste ' + checkboxSelected.id)
     const questionsToRemove = QUESTIONS[checkboxSelected.id] || [];
     selectedThemeQuestions = selectedThemeQuestions.filter(
       theme => !questionsToRemove.includes(theme)
@@ -1326,11 +1330,10 @@ const chooseQuestionTheme = (event) => {
 }
 
 }
+
 const quizgenerator = () =>{
   let quizQuestions = [];
-
   if (selectedThemeQuestions.length === 0) {
-    console.log("No hay preguntas seleccionadas");
     return []
   }
 
@@ -1341,8 +1344,6 @@ const quizgenerator = () =>{
       quizQuestions.push(randomQuestion);
     }
   }
-  console.log("Número de preguntas generadas:", quizQuestions.length);
-  console.log("Preguntas generadas:", quizQuestions);
   return quizQuestions;
 }
 
@@ -1361,14 +1362,24 @@ const startGameButtonOnOff = () => {
   }
 };
 
-//const submitGamePreferences = () => {}
+const submitGamePreferences = (event) => {
+  event.preventDefault();
+  
+  const quizQuestions = quizgenerator();
+  quizElement.classList.remove('hide');
+  quizTimeRunning();   
+}
 
-const renderQuiz = () => {
-  quizElement.textContent = ""; 
-  const fragment = document.createDocumentFragment();
-  const question = 
+const renderQuiz = (question) => {
+  const questionTitle = quizElement.querySelector('[data-quiz="question"]');
+  questionTitle.textContent = question.text;
 
-  quizElement.appendChild(fragment);
+  const options = [
+    quizElement.querySelector('[data-quiz="answser1"]'),
+    quizElement.querySelector('[data-quiz="answser2"]'),
+    quizElement.querySelector('[data-quiz="answser3"]'),
+    quizElement.querySelector('[data-quiz="answser4"]')
+  ];
 }
 
 startGameButtonOnOff(); 
@@ -1379,3 +1390,4 @@ checkThemesElement.addEventListener('change', (event) => {
   quizgenerator();
 });
 checkThemesElement.addEventListener('change', startGameButtonOnOff);
+submitButtonElement.addEventListener('click', submitGamePreferences);
