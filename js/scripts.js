@@ -1266,25 +1266,14 @@ const QUESTIONS = {
 };
 
 let selectedThemeQuestions = [];
-
-//Primero, se especifica el numero de preguntas
-//let quizLength = rangeElement.value;
-
-//el valor del timer
 let timer = 10;
 let intervalId;
-
-//todos los temas
-let allThemeOptions = document.querySelectorAll(".input-checkbox");
-//allThemeOptions.forEach(option => {
-//  console.log(option.id);
-//});
 
 const detectQuizLength = (event) => {
   quizLength = event.target.value;
   rangeValueInfoElement.textContent = rangeElement.value;
 };
-
+//Funciones para el tiempo
 const setTimeforTheQuiz = (event) => {
   const value = event.target.value;
   console.log(value)
@@ -1296,25 +1285,29 @@ const setTimeforTheQuiz = (event) => {
   else if (value === '60s') timer = 60;
   else return;
   console.log(`Temporizador: ${timer}s.`);
-
-  //if (intervalId) clearInterval(intervalId);
-
-  //intervalId = setInterval(() => {
-   // const timerElement = quizElement.querySelector('[data-quiz="timer"]');
-    //if (timerElement) {
-    //  timerElement.textContent = `00:${String(timer).padStart(2, '0')}`;
-   // }
-   // console.log(`Segundos restantes: ${timer}`);
-   // timer--;
-
-   // if (timer < 0) {
-    //  console.log("Se acabó el tiempo💀");
-     // clearInterval(intervalId); 
-   // }
- // }, 1000); 
 };
 
+const quizTimeRunning = (event) => {
+  const timerValue = getTimerValue(event);
+  if (!timerValue) return;
 
+  timer = timerValue;
+  console.log(`Temporizador: ${timer}s.`);
+  if (intervalId) clearInterval(intervalId);
+
+  intervalId = setInterval(() => {
+   const timerElement = quizElement.querySelector('[data-quiz="timer"]');
+   if (timerElement) 
+    timerElement.textContent = `00:${String(timer).padStart(2, '0')}`;
+    //console.log(`Segundos restantes: ${timer}`);
+    timer--;
+   if (timer < 0) 
+    //  console.log("Se acabó el tiempo💀");
+  clearInterval(intervalId);
+}, 1000); }
+
+
+//Funciones para el quiz
 const chooseQuestionTheme = (event) => {  
   const checkboxSelected = event.target
 
@@ -1352,23 +1345,37 @@ const quizgenerator = () =>{
   console.log("Preguntas generadas:", quizQuestions);
   return quizQuestions;
 }
-quizgenerator()
+
+const startGameButtonOnOff = () => {
+  submitButtonElement.disabled = true;
+  const warningText = document.querySelector('.warning'); 
+
+  const checkboxes = checkThemesElement.querySelectorAll('input[type="checkbox"]');
+  const anyCheck = [...checkboxes].some(checkbox => checkbox.checked);
+
+  if (!anyCheck) {
+    warningText.classList.remove('hide')
+  } else {
+    submitButtonElement.disabled = false;
+    warningText.classList.add('hide')
+  }
+};
 
 //const submitGamePreferences = () => {}
 
-const renderQuiz = (questions) => {
+const renderQuiz = () => {
   quizElement.textContent = ""; 
   const fragment = document.createDocumentFragment();
-
-  questions.forEach(question => {})
-
+  const question = 
 
   quizElement.appendChild(fragment);
 }
 
+startGameButtonOnOff(); 
 rangeElement.addEventListener("input", detectQuizLength);
 radiosElement.addEventListener("change", setTimeforTheQuiz);
 checkThemesElement.addEventListener('change', (event) => {
   chooseQuestionTheme(event);
   quizgenerator();
 });
+checkThemesElement.addEventListener('change', startGameButtonOnOff);
