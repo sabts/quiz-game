@@ -5,6 +5,7 @@ const radiosElement = document.getElementById("radios");
 const checkThemesElement = document.getElementById("themes");
 const submitButtonElement = document.getElementById("startGameButton");
 const quizElement = document.getElementById("quiz")
+const answsersElement = document.getElementById('answsers')
 
 const QUESTIONS = {
   history: [
@@ -1268,17 +1269,20 @@ const QUESTIONS = {
 let selectedThemeQuestions = [];
 let timer = 10;
 let intervalId;
+let quizQuestions = [];
+let currentQuestionIndex = 0;
 
 const detectQuizLength = (event) => {
   quizLength = event.target.value;
   rangeValueInfoElement.textContent = rangeElement.value;
 };
+
 //Funciones para el tiempo
 const setTimeforTheQuiz = () => {
   const selectedtime = radiosElement.querySelector('input[type="radio"]:checked');
- const value = selectedtime.value 
+ const value = selectedtime.value
   console.log(value)
-  if (!value) return;
+  if (!value) timer= 10;
 
   if (value === '10s') timer = 10;
   else if (value === '20s') timer = 20;
@@ -1310,7 +1314,6 @@ const quizTimeRunning = (event) => {
 }, 1000); 
 }
 
-
 //Funciones para el quiz
 const chooseQuestionTheme = (event) => {  
   const checkboxSelected = event.target
@@ -1332,10 +1335,7 @@ const chooseQuestionTheme = (event) => {
 }
 
 const quizgenerator = () =>{
-  let quizQuestions = [];
-  if (selectedThemeQuestions.length === 0) {
-    return []
-  }
+  quizQuestions = [];
 
   while (quizQuestions.length < rangeElement.value) {
     const randomIndex = Math.floor(Math.random() * selectedThemeQuestions.length);
@@ -1344,8 +1344,10 @@ const quizgenerator = () =>{
       quizQuestions.push(randomQuestion);
     }
   }
+  console.log(quizQuestions)
   return quizQuestions;
 }
+
 
 const startGameButtonOnOff = () => {
   submitButtonElement.disabled = true;
@@ -1364,22 +1366,48 @@ const startGameButtonOnOff = () => {
 
 const submitGamePreferences = (event) => {
   event.preventDefault();
-  
-  const quizQuestions = quizgenerator();
+  quizQuestions = quizgenerator();
+  currentQuestionIndex = 0;
   quizElement.classList.remove('hide');
-  quizTimeRunning();   
+  formElement.classList.add('hide')
+  quizTimeRunning();  
+  renderQuiz(); 
 }
 
-const renderQuiz = (question) => {
-  const questionTitle = quizElement.querySelector('[data-quiz="question"]');
-  questionTitle.textContent = question.text;
+const renderQuiz = () => {
+  //quizElement.textContent = '';
+  //answsersElement.textContent = '';
+  
+  const questionTitle = quizElement.children[0];
+  questionTitle.textContent = quizQuestions[currentQuestionIndex].question;
+  //console.log(quizQuestions[currentQuestionIndex].question)
 
-  const options = [
-    quizElement.querySelector('[data-quiz="answser1"]'),
-    quizElement.querySelector('[data-quiz="answser2"]'),
-    quizElement.querySelector('[data-quiz="answser3"]'),
-    quizElement.querySelector('[data-quiz="answser4"]')
-  ];
+  const randomOrderOfOptions = [...quizQuestions[currentQuestionIndex].options].sort(() => Math.random() - 0.5);
+  //console.log(randomOrderOfOptions)
+
+  const answerSpans = answsersElement.children;
+
+  randomOrderOfOptions.forEach((option, index) => {
+    answerSpans[index].textContent = option;
+    answerSpans[index].dataset.index = index;
+  });
+//science: [
+  //{
+   // category: "Ciencia",
+    //question: "¿Qué científico descubrió la penicilina?",
+    //options: [
+      //"Alexander Fleming",
+      //"Marie Curie",
+      //"Isaac Newton",
+      //"Charles Darwin",
+   // ],
+
+    //answer: "Alexander Fleming",
+//Tomar en cuenta: 
+  //data-answers-option
+  //data-answer-correct
+  //data-answer-Wrong
+//})
 }
 
 startGameButtonOnOff(); 

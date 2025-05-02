@@ -57,3 +57,12 @@ h1{
 .input-checkbox:checked{
     background-image: radial-gradient(#ffffffc2, #c058f3);
 }
+.quiz-game{
+    text-align: center;
+    align-content: center;
+    gap: 2rem;
+}
+.answsers{
+    display: flex;
+    justify-content: space-between;
+}
