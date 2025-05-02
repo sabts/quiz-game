@@ -6,7 +6,7 @@ const checkThemesElement = document.getElementById("themes");
 const submitButtonElement = document.getElementById("startGameButton");
 const quizElement = document.getElementById("quiz")
 const answsersElement = document.getElementById('answsers')
-
+const resultsElement =document.getElementById('results')
 const QUESTIONS = {
   history: [
     {
@@ -1271,48 +1271,58 @@ let timer = 10;
 let intervalId;
 let quizQuestions = [];
 let currentQuestionIndex = 0;
+let correctAnswer = 0;
+let wrongAnswer = 0;
 
 const detectQuizLength = (event) => {
   quizLength = event.target.value;
   rangeValueInfoElement.textContent = rangeElement.value;
 };
 
-//Funciones para el tiempo
 const setTimeforTheQuiz = () => {
   const selectedtime = radiosElement.querySelector('input[type="radio"]:checked');
  const value = selectedtime.value
-  console.log(value)
-  if (!value) timer= 10;
+ // console.log(value)
+ if (!selectedtime) {
+  timer = 10;
+  return timer;
+}
 
   if (value === '10s') timer = 10;
   else if (value === '20s') timer = 20;
   else if (value === '30s') timer = 30;
   else if (value === '60s') timer = 60;
-  else return;
-
-  console.log(`Temporizador: ${timer}s.`);
+  else timer = 20;
+  //console.log(`Temporizador: ${timer}s.`);
   return timer;
 };
 
 const quizTimeRunning = (event) => {
-  const timerValue = setTimeforTheQuiz(event);
-  if (!timerValue) return;
-
+  const timerValue = setTimeforTheQuiz();
   timer = timerValue;
-  console.log(`Temporizador: ${timer}s.`);
+
+  const timerElement = quizElement.querySelector('[data-quiz="timer"]');
+  if (!timerElement) return;
+
   if (intervalId) clearInterval(intervalId);
 
   intervalId = setInterval(() => {
-   const timerElement = quizElement.querySelector('[data-quiz="timer"]');
-   if (timerElement) 
     timerElement.textContent = `00:${String(timer).padStart(2, '0')}`;
-    //console.log(`Segundos restantes: ${timer}`);
     timer--;
-   if (timer < 0) 
-    //  console.log("Se acabó el tiempo💀");
-  clearInterval(intervalId);
-}, 1000); 
-}
+
+    if (timer < 0) {
+      clearInterval(intervalId);
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < quizQuestions.length) {
+        renderQuiz();
+      } else {
+        quizElement.classList.add('hide');
+        resultsElement.classList.remove('hide');
+      }
+    }
+  }, 1000);
+};
 
 //Funciones para el quiz
 const chooseQuestionTheme = (event) => {  
@@ -1369,9 +1379,30 @@ const submitGamePreferences = (event) => {
   quizQuestions = quizgenerator();
   currentQuestionIndex = 0;
   quizElement.classList.remove('hide');
-  formElement.classList.add('hide')
-  quizTimeRunning();  
+  formElement.classList.add('hide');
   renderQuiz(); 
+}
+
+const compareAnswers = (event) => {
+  console.log(event.target.textContent);
+  const correctAnswer = quizQuestions[currentQuestionIndex].answer;
+  console.log(correctAnswer);
+
+  if (event.target.textContent !== correctAnswer) {
+    console.log('Respuesta incorrecta');
+    // push wrong;
+  } else {
+    console.log('Respuesta correcta');
+    // push.right;
+  }
+  currentQuestionIndex++;
+
+  if (currentQuestionIndex < quizQuestions.length) {
+    renderQuiz();
+  } else {
+    resultsElement.classList.remove('hide')
+    console.log("Fin del quiz");
+};
 }
 
 const renderQuiz = () => {
@@ -1386,23 +1417,17 @@ const renderQuiz = () => {
   //console.log(randomOrderOfOptions)
 
   const answerSpans = answsersElement.children;
+  const timeSpan = document.querySelector('[data-quiz="timer"]');
 
   randomOrderOfOptions.forEach((option, index) => {
     answerSpans[index].textContent = option;
     answerSpans[index].dataset.index = index;
+  
+    answerSpans[index].removeEventListener('click', compareAnswers);
+    answerSpans[index].addEventListener('click', compareAnswers);
   });
-//science: [
-  //{
-   // category: "Ciencia",
-    //question: "¿Qué científico descubrió la penicilina?",
-    //options: [
-      //"Alexander Fleming",
-      //"Marie Curie",
-      //"Isaac Newton",
-      //"Charles Darwin",
-   // ],
+  quizTimeRunning(); 
 
-    //answer: "Alexander Fleming",
 //Tomar en cuenta: 
   //data-answers-option
   //data-answer-correct
