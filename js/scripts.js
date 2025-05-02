@@ -7,6 +7,7 @@ const submitButtonElement = document.getElementById("startGameButton");
 const quizElement = document.getElementById("quiz")
 const answsersElement = document.getElementById('answsers')
 const resultsElement =document.getElementById('results')
+
 const QUESTIONS = {
   history: [
     {
@@ -1273,6 +1274,7 @@ let quizQuestions = [];
 let currentQuestionIndex = 0;
 let correctAnswer = 0;
 let wrongAnswer = 0;
+let skipAnswer = 0;
 
 const detectQuizLength = (event) => {
   quizLength = event.target.value;
@@ -1296,7 +1298,7 @@ const setTimeforTheQuiz = () => {
   //console.log(`Temporizador: ${timer}s.`);
   return timer;
 };
-
+//No va con lag, es que tal cual lo tienes el cambio de texto sucede cuando arranca el intervalo, tienes que cambiarlo antes también y así compensas ese segundo
 const quizTimeRunning = (event) => {
   const timerValue = setTimeforTheQuiz();
   timer = timerValue;
@@ -1304,14 +1306,17 @@ const quizTimeRunning = (event) => {
   const timerElement = quizElement.querySelector('[data-quiz="timer"]');
   if (!timerElement) return;
 
+  timerElement.textContent = `00:${String(timer).padStart(2, '0')}`;
   if (intervalId) clearInterval(intervalId);
 
+  
   intervalId = setInterval(() => {
     timerElement.textContent = `00:${String(timer).padStart(2, '0')}`;
     timer--;
 
     if (timer < 0) {
       clearInterval(intervalId);
+      skipAnswer++
       currentQuestionIndex++;
 
       if (currentQuestionIndex < quizQuestions.length) {
@@ -1321,7 +1326,7 @@ const quizTimeRunning = (event) => {
         resultsElement.classList.remove('hide');
       }
     }
-  }, 1000);
+  }, 900);
 };
 
 //Funciones para el quiz
@@ -1384,25 +1389,34 @@ const submitGamePreferences = (event) => {
 }
 
 const compareAnswers = (event) => {
-  console.log(event.target.textContent);
-  const correctAnswer = quizQuestions[currentQuestionIndex].answer;
-  console.log(correctAnswer);
+  //console.log(event.target.textContent);
+  const actualCorrectAnswer = quizQuestions[currentQuestionIndex].answer;
+  const getItRight = resultsElement.children[1];
+  const fail = resultsElement.children[2];
+  const noAnswer = resultsElement.children[3];
+  //console.log(correctAnswer);
 
-  if (event.target.textContent !== correctAnswer) {
-    console.log('Respuesta incorrecta');
-    // push wrong;
+  if (event.target.textContent !== actualCorrectAnswer) {
+    console.log('Respuesta incorrecta' + event.target.textContent);
+    wrongAnswer++
+    currentQuestionIndex++;
   } else {
-    console.log('Respuesta correcta');
-    // push.right;
+    console.log('Respuesta correcta' + actualCorrectAnswer);
+    correctAnswer++
+    currentQuestionIndex++;
   }
-  currentQuestionIndex++;
 
   if (currentQuestionIndex < quizQuestions.length) {
     renderQuiz();
   } else {
+    quizElement.classList.add('hide')
     resultsElement.classList.remove('hide')
     console.log("Fin del quiz");
+    getItRight.textContent= `Acertaste: ${correctAnswer}`
+    fail.textContent= `Fallaste: ${wrongAnswer}`
+    noAnswer.textContent= `No contestaste a tiempo: ${skipAnswer}`
 };
+quizTimeRunning()
 }
 
 const renderQuiz = () => {
