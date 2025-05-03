@@ -7,6 +7,7 @@ const submitButtonElement = document.getElementById("startGameButton");
 const quizElement = document.getElementById("quiz")
 const answsersElement = document.getElementById('answsers')
 const resultsElement =document.getElementById('results')
+const restartButtonElement = document.getElementById('restart')
 
 const QUESTIONS = {
   history: [
@@ -1285,10 +1286,7 @@ const setTimeforTheQuiz = () => {
   const selectedtime = radiosElement.querySelector('input[type="radio"]:checked');
  const value = selectedtime.value
  // console.log(value)
- if (!selectedtime) {
-  timer = 10;
-  return timer;
-}
+ if (!selectedtime) return ;
 
   if (value === '10s') timer = 10;
   else if (value === '20s') timer = 20;
@@ -1334,19 +1332,19 @@ const chooseQuestionTheme = (event) => {
   const checkboxSelected = event.target
 
   if(checkboxSelected.checked) {
-   // console.log('seleccionaste ' + checkboxSelected.id)
+   console.log('seleccionaste ' + checkboxSelected.id)
     if (QUESTIONS[checkboxSelected.id]) 
       selectedThemeQuestions.push(...QUESTIONS[checkboxSelected.id]);
     //console.log(selectedThemeQuestions)
   } else{
-    //console.log('borraste ' + checkboxSelected.id)
+    console.log('borraste ' + checkboxSelected.id)
     const questionsToRemove = QUESTIONS[checkboxSelected.id] || [];
     selectedThemeQuestions = selectedThemeQuestions.filter(
       theme => !questionsToRemove.includes(theme)
     );
      // console.log(selectedThemeQuestions)
 }
-
+startGameButtonOnOff();
 }
 
 const quizgenerator = () =>{
@@ -1449,12 +1447,33 @@ const renderQuiz = () => {
 //})
 }
 
+const resetQuiz = () => {
+  quizQuestions = [];
+  selectedThemeQuestions = [];
+  currentQuestionIndex = 0;
+  correctAnswer = 0;
+  wrongAnswer = 0;
+  skipAnswer = 0;
+
+  clearInterval(intervalId)
+  formElement.reset();
+  rangeValueInfoElement.textContent = rangeElement.value;
+
+  formElement.classList.remove('hide');
+  quizElement.classList.add('hide');
+  resultsElement.classList.add('hide');
+
+  startGameButtonOnOff();
+}
+
 startGameButtonOnOff(); 
 rangeElement.addEventListener("input", detectQuizLength);
 radiosElement.addEventListener("change", setTimeforTheQuiz);
 checkThemesElement.addEventListener('change', (event) => {
   chooseQuestionTheme(event);
-  quizgenerator();
+  startGameButtonOnOff();
 });
-checkThemesElement.addEventListener('change', startGameButtonOnOff);
 submitButtonElement.addEventListener('click', submitGamePreferences);
+restartButtonElement.addEventListener("click", () => {
+  resetQuiz();
+});
