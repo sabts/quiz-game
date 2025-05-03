@@ -8,6 +8,8 @@ const quizElement = document.getElementById("quiz")
 const answsersElement = document.getElementById('answsers')
 const resultsElement =document.getElementById('results')
 const restartButtonElement = document.getElementById('restart')
+const summaryCorrect = document.getElementById('summary-correct');
+const summaryWrong = document.getElementById('summary-wrong');
 
 const QUESTIONS = {
   history: [
@@ -1272,10 +1274,41 @@ let selectedThemeQuestions = [];
 let timer = 10;
 let intervalId;
 let quizQuestions = [];
+const userAnswers = [];
 let currentQuestionIndex = 0;
 let correctAnswer = 0;
 let wrongAnswer = 0;
 let skipAnswer = 0;
+
+const resetQuiz = () => {
+  quizQuestions = [];
+  selectedThemeQuestions = [];
+  currentQuestionIndex = 0;
+  correctAnswer = 0;
+  wrongAnswer = 0;
+  skipAnswer = 0;
+
+  clearInterval(intervalId)
+  formElement.reset();
+  rangeValueInfoElement.textContent = rangeElement.value;
+
+  formElement.classList.remove('hide');
+  submitButtonElement.remove('hide')
+  quizElement.classList.add('hide');
+  resultsElement.classList.add('hide');
+
+  startGameButtonOnOff();
+}
+
+const createAnswerObject = (userAnswer, isCorrect) => {
+  return {
+    guessRight'{}
+    question: quizQuestions[currentQuestionIndex].question,
+    correctAnswer: quizQuestions[currentQuestionIndex].answer,
+    answer: userAnswer,
+    correct: isCorrect,
+  };
+}
 
 const detectQuizLength = (event) => {
   quizLength = event.target.value;
@@ -1296,6 +1329,7 @@ const setTimeforTheQuiz = () => {
   //console.log(`Temporizador: ${timer}s.`);
   return timer;
 };
+
 //No va con lag, es que tal cual lo tienes el cambio de texto sucede cuando arranca el intervalo, tienes que cambiarlo antes también y así compensas ese segundo
 const quizTimeRunning = (event) => {
   const timerValue = setTimeforTheQuiz();
@@ -1316,7 +1350,6 @@ const quizTimeRunning = (event) => {
       clearInterval(intervalId);
       skipAnswer++
       currentQuestionIndex++;
-
       if (currentQuestionIndex < quizQuestions.length) {
         renderQuiz();
       } else {
@@ -1389,20 +1422,23 @@ const submitGamePreferences = (event) => {
 const compareAnswers = (event) => {
   //console.log(event.target.textContent);
   const actualCorrectAnswer = quizQuestions[currentQuestionIndex].answer;
+  const selectedAnswer = event.target.textContent;
+  const isCorrect = selectedAnswer === actualCorrectAnswer;
+
   const getItRight = resultsElement.children[1];
   const fail = resultsElement.children[2];
   const noAnswer = resultsElement.children[3];
   //console.log(correctAnswer);
 
-  if (event.target.textContent !== actualCorrectAnswer) {
-    console.log('Respuesta incorrecta' + event.target.textContent);
-    wrongAnswer++
-    currentQuestionIndex++;
+  userAnswers.push(createAnswerObject(selectedAnswer, isCorrect));
+  
+  if (!isCorrect) {
+    wrongAnswer++;
   } else {
-    console.log('Respuesta correcta' + actualCorrectAnswer);
-    correctAnswer++
-    currentQuestionIndex++;
+    correctAnswer++;
   }
+
+  currentQuestionIndex++;
 
   if (currentQuestionIndex < quizQuestions.length) {
     renderQuiz();
@@ -1410,7 +1446,8 @@ const compareAnswers = (event) => {
     quizElement.classList.add('hide')
     resultsElement.classList.remove('hide')
     console.log("Fin del quiz");
-    getItRight.textContent= `Acertaste: ${correctAnswer}`
+   getItRight.textContent= `Acertaste: ${correctAnswer}`
+   //summaryCorrect.textContent= `string()`
     fail.textContent= `Fallaste: ${wrongAnswer}`
     noAnswer.textContent= `No contestaste a tiempo: ${skipAnswer}`
 };
@@ -1439,31 +1476,6 @@ const renderQuiz = () => {
     answerSpans[index].addEventListener('click', compareAnswers);
   });
   quizTimeRunning(); 
-
-//Tomar en cuenta: 
-  //data-answers-option
-  //data-answer-correct
-  //data-answer-Wrong
-//})
-}
-
-const resetQuiz = () => {
-  quizQuestions = [];
-  selectedThemeQuestions = [];
-  currentQuestionIndex = 0;
-  correctAnswer = 0;
-  wrongAnswer = 0;
-  skipAnswer = 0;
-
-  clearInterval(intervalId)
-  formElement.reset();
-  rangeValueInfoElement.textContent = rangeElement.value;
-
-  formElement.classList.remove('hide');
-  quizElement.classList.add('hide');
-  resultsElement.classList.add('hide');
-
-  startGameButtonOnOff();
 }
 
 startGameButtonOnOff(); 
