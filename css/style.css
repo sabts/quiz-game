@@ -33,14 +33,35 @@ body{
     font-family: sans-serif;
     padding-inline: 3rem;
     padding-bottom: 1rem;
+    background-image: url(../assets/phone-background.svg);
+    background-size:cover;
     background-color: #3ABAFA;
 }
+@media screen and (min-width: 768px) {
+    body{
+        background-image: url(../assets/tablet-background.svg);
+    }
+}
+@media screen and (min-width: 1024px) {
+    body{
+        background-image: url(../assets/deskop-backgorund.svg);
+        background-size: auto;
+    }
+}
+
 h1{
     font-family: "Londrina Solid";
+    text-shadow: 1px 4px #000;
     font-size: 3rem;
     text-align: center;
     color: white;
     margin-bottom: 1rem;
+}
+@media screen and (min-width: 768px) {
+    h1{
+        font-size: 4rem;
+        text-shadow: 1px 5px #000;
+    }
 }
 .main-container{
   display: flex;
@@ -67,6 +88,12 @@ h1{
     gap: 1.2rem;
     margin-bottom: 2rem;
     position: sticky;
+}
+
+@media screen and (min-width: 768px) {
+    .form{
+        width: 400px;
+    }
 }
 /*Range*/
 .range{
@@ -122,6 +149,11 @@ h1{
     box-shadow: none;
     box-shadow: -1px -1px rgba(255, 255, 255, 0.25) inset, 1px 1px rgba(255, 255, 255, 0.25) inset;
 }
+@media screen and (min-width: 768px) {
+    .label{
+        font-size: 1rem;
+    }
+}
 /*boton de jugar*/
 .start-game{
     position: absolute;
@@ -134,6 +166,11 @@ h1{
     box-shadow: 2px 5px #000;
     font-family: "Londrina Solid";
     font-size: 2rem;
+}
+@media screen and (min-width: 768px) {
+    .start-game{
+        top: 450px;
+    }
 }
 /*Quiz Start*/
 .quiz-game{
@@ -165,7 +202,8 @@ h1{
 .answer{
     display: flex;
     width: 160px;
-    height: 70px;
+    height: 80px;
+    font-size: 0.8rem;
     padding: 16px 30px;
     justify-content: center;
     align-items: center;
@@ -199,16 +237,18 @@ h1{
     gap: 1rem;
 }
 .restart-button{
+    color: #FFF;
+    text-align: center;
+    font-family: "Londrina Solid";
+    font-size: 24px;
     display: flex;
-    width: 184px;
-    height: 43px;
     padding: 8px 24px;
     justify-content: center;
     align-items: center;
     border-radius: 8px;
     border: 2px solid black;
     background: #3ABAFA;
-    box-shadow: px 4px #000;
+    box-shadow: 2px 4px #000;
 }
 .hide{
     display: none;

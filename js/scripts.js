@@ -7,6 +7,8 @@ const submitButtonElement = document.getElementById("startGameButton");
 const quizElement = document.getElementById("quiz")
 const answsersElement = document.getElementById('answers')
 const resultsElement =document.getElementById('results')
+const summaryrightElement = document.getElementById('summary-right')
+const summaryWrongElement = document.getElementById('summary-wrong')
 const restartButtonElement = document.getElementById('restart')
 
 const QUESTIONS = {
@@ -1273,6 +1275,10 @@ let timer = 10;
 let intervalId;
 let quizQuestions = [];
 let currentQuestionIndex = 0;
+
+//Respuestas
+let userCorrectAnswer= []
+let userWrongAnswer= []
 let correctAnswer = 0;
 let wrongAnswer = 0;
 let skipAnswer = 0;
@@ -1408,21 +1414,49 @@ const submitGamePreferences = (event) => {
   renderQuiz(); 
 }
 
+const renderAnswers = (summaryOf, divContainer) => {
+  const fragment = document.createElement('fragment')
+  summaryOf.forEach(summary => {
+    const questionTitle = document.createElement('h5');
+    questionTitle.textContent = summary.question;
+
+    const rigthAnswer = document.createElement('p');
+    rigthAnswer.textContent = summary.answer;
+
+    const userAnswer = document.createElement('p');
+    userAnswer = summary.userAnswer
+
+    fragment.append(questionTitle, rigthAnswer, userAnswer)
+  });
+  divContainer.append(fragment)
+}
+
 const compareAnswers = (event) => {
   //console.log(event.target.textContent);
   const actualCorrectAnswer = quizQuestions[currentQuestionIndex].answer;
   const getItRight = resultsElement.children[1];
-  const fail = resultsElement.children[2];
-  const noAnswer = resultsElement.children[3];
+  const fail = resultsElement.children[3];
+  const noAnswer = resultsElement.children[5];
   //console.log(correctAnswer);
 
   if (event.target.textContent !== actualCorrectAnswer) {
     console.log('Respuesta incorrecta' + event.target.textContent);
     wrongAnswer++
+    userWrongAnswer.push({
+      question: quizQuestions[currentQuestionIndex].question,
+      answer: actualCorrectAnswer,
+      userAnswer: event.target.textContent, 
+    });
+    console.log(userWrongAnswer)
     currentQuestionIndex++;
   } else {
     console.log('Respuesta correcta' + actualCorrectAnswer);
     correctAnswer++
+    userCorrectAnswer.push({
+      question: quizQuestions[currentQuestionIndex].question,
+      answer: actualCorrectAnswer,
+      userAnswer: event.target.textContent,
+    });
     currentQuestionIndex++;
   }
 
@@ -1433,7 +1467,9 @@ const compareAnswers = (event) => {
     resultsElement.classList.remove('hide')
     console.log("Fin del quiz");
     getItRight.textContent= `Acertaste: ${correctAnswer}`
-    fail.textContent= `Fallaste: ${wrongAnswer}`
+    summaryrightElement.textContent = renderAnswers(userCorrectAnswer, summaryrightElement);
+    fail.textContent = `Fallaste: ${wrongAnswer}`;
+    summaryWrongElement.textContent = renderAnswers(userWrongAnswer, summaryWrongElement);
     noAnswer.textContent= `No contestaste a tiempo: ${skipAnswer}`
 };
 quizTimeRunning()
