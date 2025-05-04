@@ -93,10 +93,6 @@ h1{
 .radio-input:checked + .radio-label {
     background-color: #3ABAFA;
 }
-.hide{
-    display: none;
-    pointer-events: none;
-}
 
 /*Clases para el CheckBox (temas)*/
 .checkbox-box{
@@ -136,7 +132,7 @@ h1{
     box-shadow: 2px 5px #000;
 }
 /*Quiz Start*/
-.quiz-game {
+.quiz-game{
     display: flex;
     flex-direction: column;
     align-items: center;   
@@ -182,5 +178,8 @@ h1{
     background: #3ABAFA;
     color: #FFF;
     font-size: 2rem;
-    
+}
+.hide{
+    display: none;
+    pointer-events: none;
 }
