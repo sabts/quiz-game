@@ -1467,9 +1467,9 @@ const compareAnswers = (event) => {
     resultsElement.classList.remove('hide')
     console.log("Fin del quiz");
     getItRight.textContent= `Acertaste: ${correctAnswer}`
-    summaryrightElement.textContent = renderAnswers(userCorrectAnswer, summaryrightElement);
+    //summaryrightElement.textContent = renderAnswers(userCorrectAnswer, summaryrightElement);
     fail.textContent = `Fallaste: ${wrongAnswer}`;
-    summaryWrongElement.textContent = renderAnswers(userWrongAnswer, summaryWrongElement);
+   // summaryWrongElement.textContent = renderAnswers(userWrongAnswer, summaryWrongElement);
     noAnswer.textContent= `No contestaste a tiempo: ${skipAnswer}`
 };
 quizTimeRunning()
