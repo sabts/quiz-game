@@ -1,11 +1,11 @@
 
 :root {
     --history: #a3c000;
-    --science: #09b900;
-    --geography: #f94e4e;
-    --art: #ec6a00;
-    --general: #20a3fb;
-    --mythology: #a656fd;
+    --science: #4fbe49;
+    --geography: #e35a5a;
+    --art: #ff9640;
+    --general: #83ceff;
+    --mythology: #c38ffa;
 }
 
 *{
@@ -32,13 +32,15 @@ body{
     margin: 0;
     font-family: sans-serif;
     padding-inline: 3rem;
-    padding-top: 1rem;
     padding-bottom: 1rem;
     background-color: #3ABAFA;
 }
 h1{
+    font-family: "Londrina Solid";
+    font-size: 3rem;
     text-align: center;
     color: white;
+    margin-bottom: 1rem;
 }
 .main-container{
   display: flex;
@@ -53,6 +55,7 @@ h1{
 .form{
     flex-direction: column;
     align-items: center;   
+    width: 320px;
     justify-content: center;
     background-color: white; 
     padding-top: 1.5rem;
@@ -61,9 +64,9 @@ h1{
     border-radius: 2rem;
     border: 2px solid black;
     box-shadow: 2px 6px black;
-    gap: 1.5rem;
+    gap: 1.2rem;
     margin-bottom: 2rem;
-    position: relative;
+    position: sticky;
 }
 /*Range*/
 .range{
@@ -92,6 +95,7 @@ h1{
 
 .radio-input:checked + .radio-label {
     background-color: #3ABAFA;
+    background-image:radial-gradient(50% 50% at 50% 50%, #70c6f1 0%, #3ABAFA 100%);
 }
 
 /*Clases para el CheckBox (temas)*/
@@ -101,35 +105,35 @@ h1{
     column-gap: 1rem;
 }
 .label{
-    font-size: 0.7rem;
+    font-size: 0.77rem;
     display: block;
     padding: 8px 16px;
     border: 1px solid #000;
     border-radius: 8px;
     cursor: pointer;
     background-color: #D6D6D6;
-    transition: background 0.3s ease;
+    box-shadow: 0px -3px#000 inset;
 }
 .input-checkbox{
     appearance: none;
 }
 .input-checkbox:checked + .label {
     background-color: var(--history);
-    border: none;
+    box-shadow: none;
+    box-shadow: -1px -1px rgba(255, 255, 255, 0.25) inset, 1px 1px rgba(255, 255, 255, 0.25) inset;
 }
 /*boton de jugar*/
 .start-game{
-    display: flex;
     position: absolute;
-    top: 480px;
-    width: 184px;
-    height: 44px;
-    padding: 8px 16px;
+    top: 435px;
+    padding: 8px 3rem;
     text-transform: uppercase;
     border-radius: 8px;
     border: 2px solid black;
     background: white;
     box-shadow: 2px 5px #000;
+    font-family: "Londrina Solid";
+    font-size: 2rem;
 }
 /*Quiz Start*/
 .quiz-game{
@@ -204,7 +208,7 @@ h1{
     border-radius: 8px;
     border: 2px solid black;
     background: #3ABAFA;
-    box-shadow: 1px 4px #000;
+    box-shadow: px 4px #000;
 }
 .hide{
     display: none;

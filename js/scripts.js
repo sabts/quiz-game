@@ -1277,6 +1277,25 @@ let correctAnswer = 0;
 let wrongAnswer = 0;
 let skipAnswer = 0;
 
+const resetQuiz = () => {
+  quizQuestions = [];
+  selectedThemeQuestions = [];
+  currentQuestionIndex = 0;
+  correctAnswer = 0;
+  wrongAnswer = 0;
+  skipAnswer = 0;
+
+  clearInterval(intervalId)
+  formElement.reset();
+  rangeValueInfoElement.textContent = rangeElement.value;
+
+  formElement.classList.remove('hide');
+  quizElement.classList.add('hide');
+  resultsElement.classList.add('hide');
+
+  startGameButtonOnOff();
+}
+
 const detectQuizLength = (event) => {
   quizLength = event.target.value;
   rangeValueInfoElement.textContent = rangeElement.value;
@@ -1329,12 +1348,14 @@ const quizTimeRunning = (event) => {
 
 //Funciones para el quiz
 const chooseQuestionTheme = (event) => {  
-  const checkboxSelected = event.target
+  const checkboxSelected = event.target;
+  const label = document.querySelector(`label[for="${checkboxSelected.id}"]`);
 
   if(checkboxSelected.checked) {
    console.log('seleccionaste ' + checkboxSelected.id)
     if (QUESTIONS[checkboxSelected.id]) 
       selectedThemeQuestions.push(...QUESTIONS[checkboxSelected.id]);
+      label.style.backgroundColor = `var(--${checkboxSelected.id})`;
     //console.log(selectedThemeQuestions)
   } else{
     console.log('borraste ' + checkboxSelected.id)
@@ -1342,6 +1363,7 @@ const chooseQuestionTheme = (event) => {
     selectedThemeQuestions = selectedThemeQuestions.filter(
       theme => !questionsToRemove.includes(theme)
     );
+    label.style.backgroundColor = '#D6D6D6';
      // console.log(selectedThemeQuestions)
 }
 startGameButtonOnOff();
@@ -1445,25 +1467,6 @@ const renderQuiz = () => {
   //data-answer-correct
   //data-answer-Wrong
 //})
-}
-
-const resetQuiz = () => {
-  quizQuestions = [];
-  selectedThemeQuestions = [];
-  currentQuestionIndex = 0;
-  correctAnswer = 0;
-  wrongAnswer = 0;
-  skipAnswer = 0;
-
-  clearInterval(intervalId)
-  formElement.reset();
-  rangeValueInfoElement.textContent = rangeElement.value;
-
-  formElement.classList.remove('hide');
-  quizElement.classList.add('hide');
-  resultsElement.classList.add('hide');
-
-  startGameButtonOnOff();
 }
 
 startGameButtonOnOff(); 
