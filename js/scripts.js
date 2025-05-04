@@ -1296,7 +1296,7 @@ const setTimeforTheQuiz = () => {
   //console.log(`Temporizador: ${timer}s.`);
   return timer;
 };
-//No va con lag, es que tal cual lo tienes el cambio de texto sucede cuando arranca el intervalo, tienes que cambiarlo antes también y así compensas ese segundo
+
 const quizTimeRunning = (event) => {
   const timerValue = setTimeforTheQuiz();
   timer = timerValue;
@@ -1304,12 +1304,12 @@ const quizTimeRunning = (event) => {
   const timerElement = quizElement.querySelector('[data-quiz="timer"]');
   if (!timerElement) return;
 
-  timerElement.textContent = `00:${String(timer).padStart(2, '0')}`;
+  timerElement.textContent = `${String(timer).padStart(2, '0')}`;
   if (intervalId) clearInterval(intervalId);
 
   
   intervalId = setInterval(() => {
-    timerElement.textContent = `00:${String(timer).padStart(2, '0')}`;
+    timerElement.textContent = `${String(timer).padStart(2, '0')}`;
     timer--;
 
     if (timer < 0) {
