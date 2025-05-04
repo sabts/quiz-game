@@ -4,12 +4,10 @@ const rangeElement = document.getElementById("range-question");
 const radiosElement = document.getElementById("radios");
 const checkThemesElement = document.getElementById("themes");
 const submitButtonElement = document.getElementById("startGameButton");
-const quizElement = document.getElementById("quiz")
-const answsersElement = document.getElementById('answsers')
-const resultsElement =document.getElementById('results')
-const restartButtonElement = document.getElementById('restart')
-const summaryCorrect = document.getElementById('summary-correct');
-const summaryWrong = document.getElementById('summary-wrong');
+const quizElement = document.getElementById("quiz");
+const answsersElement = document.getElementById('answers');
+const resultsElement =document.getElementById('results');
+const restartButtonElement = document.getElementById('restart');
 
 const QUESTIONS = {
   history: [
@@ -1272,7 +1270,7 @@ const QUESTIONS = {
 
 let selectedThemeQuestions = [];
 let timer = 10;
-let intervalId;
+let intervalId = null
 let quizQuestions = [];
 const userAnswers = [];
 let currentQuestionIndex = 0;
@@ -1293,7 +1291,6 @@ const resetQuiz = () => {
   rangeValueInfoElement.textContent = rangeElement.value;
 
   formElement.classList.remove('hide');
-  submitButtonElement.remove('hide')
   quizElement.classList.add('hide');
   resultsElement.classList.add('hide');
 
@@ -1301,13 +1298,6 @@ const resetQuiz = () => {
 }
 
 const createAnswerObject = (userAnswer, isCorrect) => {
-  return {
-    guessRight'{}
-    question: quizQuestions[currentQuestionIndex].question,
-    correctAnswer: quizQuestions[currentQuestionIndex].answer,
-    answer: userAnswer,
-    correct: isCorrect,
-  };
 }
 
 const detectQuizLength = (event) => {
@@ -1338,18 +1328,19 @@ const quizTimeRunning = (event) => {
   const timerElement = quizElement.querySelector('[data-quiz="timer"]');
   if (!timerElement) return;
 
-  timerElement.textContent = `00:${String(timer).padStart(2, '0')}`;
+  timerElement.textContent = `${String(timer).padStart(2, '0')}`;
   if (intervalId) clearInterval(intervalId);
 
   
   intervalId = setInterval(() => {
-    timerElement.textContent = `00:${String(timer).padStart(2, '0')}`;
+    timerElement.textContent = `${String(timer).padStart(2, '0')}`;
     timer--;
 
     if (timer < 0) {
       clearInterval(intervalId);
       skipAnswer++
       currentQuestionIndex++;
+
       if (currentQuestionIndex < quizQuestions.length) {
         renderQuiz();
       } else {
@@ -1414,8 +1405,8 @@ const submitGamePreferences = (event) => {
   event.preventDefault();
   quizQuestions = quizgenerator();
   currentQuestionIndex = 0;
-  quizElement.classList.remove('hide');
-  formElement.classList.add('hide');
+  quizElement.classList.remove('hide'); 
+  formElement.classList.add('hide'); 
   renderQuiz(); 
 }
 
@@ -1423,31 +1414,31 @@ const compareAnswers = (event) => {
   //console.log(event.target.textContent);
   const actualCorrectAnswer = quizQuestions[currentQuestionIndex].answer;
   const selectedAnswer = event.target.textContent;
-  const isCorrect = selectedAnswer === actualCorrectAnswer;
 
   const getItRight = resultsElement.children[1];
   const fail = resultsElement.children[2];
   const noAnswer = resultsElement.children[3];
   //console.log(correctAnswer);
 
-  userAnswers.push(createAnswerObject(selectedAnswer, isCorrect));
-  
-  if (!isCorrect) {
-    wrongAnswer++;
+  if (selectedAnswer !== actualCorrectAnswer) {
+    console.log('Respuesta incorrecta' + event.target.textContent);
+    wrongAnswer++
+    currentQuestionIndex++;
+    
   } else {
-    correctAnswer++;
+    console.log('Respuesta correcta' + actualCorrectAnswer);
+    correctAnswer++
+    currentQuestionIndex++;
   }
-
-  currentQuestionIndex++;
 
   if (currentQuestionIndex < quizQuestions.length) {
     renderQuiz();
   } else {
     quizElement.classList.add('hide')
     resultsElement.classList.remove('hide')
+    submitButtonElement.classList.add('hide');
     console.log("Fin del quiz");
-   getItRight.textContent= `Acertaste: ${correctAnswer}`
-   //summaryCorrect.textContent= `string()`
+    getItRight.textContent= `Acertaste: ${correctAnswer}`
     fail.textContent= `Fallaste: ${wrongAnswer}`
     noAnswer.textContent= `No contestaste a tiempo: ${skipAnswer}`
 };

@@ -10,7 +10,7 @@
     <header>
       <h1>Quiz Game</h1>
     </header>
-    <main>
+    <main class="main-container">
       <form class="form" id="form">
         <div class="range">
           <span>¿Cuántas preguntas quieres?</span>
@@ -21,69 +21,71 @@
             <input type="range" min="5" max="30"  step="1" id="range-question">
           </div>
         </div>
-        <div class="radios" id="radios">
+        <div class="radio-container" >
           <span>¿Cuánto tiempo quieres por pregunta?</span>
+          <div class="radios" id="radios">
+            <div>
+              <input type="radio" id="radio10s" name="radio-time" value="10s" class="radio-input" checked>
+              <label for="radio10s" class="radio-label">10s</label>
+          </div>
           <div>
-            <input type="radio" id="radio10s" name="radio-time" value="10s" checked>
-            <label for="radio10s">10 segundos</label>
-        </div>
-        <div>
-            <input type="radio" id="radio20s" name="radio-time" value="20s">
-            <label for="radio20s">20 segundos</label>
-        </div>
-        <div>
-            <input type="radio" id="radio30s" name="radio-time" value="30s">
-            <label for="radio30s">30 segundos</label>
-        </div>
-        <div>
-            <input type="radio" id="radio60s" name="radio-time" value="60s">
-            <label for="radio60s">60 segundos</label>
-        </div>
+              <input type="radio" id="radio20s" name="radio-time" value="20s"  class="radio-input">
+              <label for="radio20s" class="radio-label">20s</label>
+          </div>
+          <div>
+              <input type="radio" id="radio30s" name="radio-time" value="30s"  class="radio-input">
+              <label for="radio30s" class="radio-label">30s</label>
+          </div>
+          <div>
+              <input type="radio" id="radio60s" name="radio-time" value="60s"  class="radio-input">
+              <label for="radio60s" class="radio-label">60s</label>
+          </div>
+          </div>
         </div>
         <div class="themes" id="themes">
           <span>Temas</span>
           <div class="checkbox-box">
-            <input type="checkbox" id="science"class="input-checkbox">
-            <label for="science" class="label">Ciencia</label>
-          </div>
-          <div>
-            <input type="checkbox" id="geography" class="input-checkbox">
-            <label for="geography" class="label" >Geografía</label>
-          </div>
-          <div>
-            <input type="checkbox" id="art" class="input-checkbox">
-            <label for="art" class="label">Arte</label>
-          </div>
-          <div>
-            <input type="checkbox" id="history" class="input-checkbox">
-            <label for="history" class="label">Historia</label>
-          </div>
-          <div>
-            <input type="checkbox" id="mythology" class="input-checkbox">
-            <label for="mythology" class="label">Mitología</label>
-          </div>
-          <div>
-            <input type="checkbox" id="general" class="input-checkbox">
-            <label for="general" class="label">Cultura General</label>
+            <div>
+              <input type="checkbox" id="science"class="input-checkbox">
+              <label for="science" class="label">Ciencia</label>
+            </div>
+            <div>
+              <input type="checkbox" id="geography" class="input-checkbox">
+              <label for="geography" class="label" >Geografía</label>
+            </div>
+            <div>
+              <input type="checkbox" id="art" class="input-checkbox">
+              <label for="art" class="label">Arte</label>
+            </div>
+            <div>
+              <input type="checkbox" id="history" class="input-checkbox">
+              <label for="history" class="label">Historia</label>
+            </div>
+            <div>
+              <input type="checkbox" id="mythology" class="input-checkbox">
+              <label for="mythology" class="label">Mitología</label>
+            </div>
+            <div>
+              <input type="checkbox" id="general" class="input-checkbox">
+              <label for="general" class="label">Cultura General</label>
+            </div>
           </div>
         </div>
         <span class="warning">Selecciona al menos un tema</span>
-        <div class="start-game">
-          <input type="submit" value="Jugar" id="startGameButton">
-        </div>
+        <input type="submit" value="Jugar" id="startGameButton" class="start-game">
       </form>
-      <section class="quiz-game hide" id="quiz">
+      <div class="quiz-game hide" id="quiz">
         <span class="question-title" data-quiz="question">Pregunta</span>
-        <div class="answsers" id="answsers">
-          <span data-answers="option1">Respuesta 1</span>
-          <span data-answers="option2">Respuesta 2</span>
-          <span data-answers="option3">Respuesta 3</span>
-          <span data-answers="option4">Respuesta 4</span>
+        <div class="answers" id="answers">
+          <span class="answer">Respuesta 1</span>
+          <span class="answer">Respuesta 2</span>
+          <span class="answer">Respuesta 3</span>
+          <span class="answer">Respuesta 4</span>
         </div>
-        <div> 
-          <span class="quiz-time" data-quiz="timer">00:29</span>
+        <div>
+          <span class="quiz-time" data-quiz="timer">29</span>
         </div>
-      </section>
+      </div>
       <section class="game-result hide" id="results">
         <h2>Resultado final</h2>
         <span>Acertaste X </span>
