@@ -167,6 +167,9 @@ h1{
     font-family: "Londrina Solid";
     font-size: 2rem;
 }
+.start-game:disabled{
+ background-color: #acacac;
+}
 @media screen and (min-width: 768px) {
     .start-game{
         top: 450px;
